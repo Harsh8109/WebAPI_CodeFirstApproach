@@ -14,6 +14,9 @@ namespace WeAPICodeFirstDemo
             // Web API routes
             config.MapHttpAttributeRoutes();
 
+            //Remove the XML formatter
+            config.Formatters.Remove(config.Formatters.XmlFormatter);
+
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
