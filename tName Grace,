@@ -1,0 +1,33 @@
+[1mdiff --git a/WeAPICodeFirstDemo/Controllers/EmployeeController.cs b/WeAPICodeFirstDemo/Controllers/EmployeeController.cs[m
+[1mindex 36f7b62..916847b 100644[m
+[1m--- a/WeAPICodeFirstDemo/Controllers/EmployeeController.cs[m
+[1m+++ b/WeAPICodeFirstDemo/Controllers/EmployeeController.cs[m
+[36m@@ -92,6 +92,28 @@[m [mnamespace WebAPICodeFirstDemo.Controllers[m
+ [m
+             }[m
+         }[m
+[32m+[m
+[32m+[m[32m        // Here we will update only the FirstName of an employee using Patch method[m
+[32m+[m[32m        public HttpResponseMessage Patch(int id, [FromBody]string FirstName)[m
+[32m+[m[32m        {[m
+[32m+[m[32m            using (ApplicationDbContext dbContext = new ApplicationDbContext())[m
+[32m+[m[32m            {[m
+[32m+[m[32m                var emp = dbContext.Employees.FirstOrDefault(e => e.Id == id);[m
+[32m+[m[32m                if(emp != null)[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    // Updating only the FirstName property of the employee[m
+[32m+[m[32m                    emp.FirstName = FirstName;[m
+[32m+[m
+[32m+[m[32m                    dbContext.SaveChanges();[m
+[32m+[m[32m                    return Request.CreateResponse(HttpStatusCode.OK, emp);[m
+[32m+[m[32m                }[m
+[32m+[m[32m                else[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Employee with Id " + id + " not found in the database. Patch failed.");[m
+[32m+[m[32m                }[m
+[32m+[m[32m            }[m
+[32m+[m[32m        }[m
+[32m+[m
+         public HttpResponseMessage Delete(int id)[m
+         {[m
+             using (ApplicationDbContext dbContext = new ApplicationDbContext())[m

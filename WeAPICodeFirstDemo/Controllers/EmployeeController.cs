@@ -92,6 +92,28 @@ namespace WebAPICodeFirstDemo.Controllers
 
             }
         }
+
+        // Here we will update only the FirstName of an employee using Patch method
+        public HttpResponseMessage Patch(int id, [FromBody]string FirstName)
+        {
+            using (ApplicationDbContext dbContext = new ApplicationDbContext())
+            {
+                var emp = dbContext.Employees.FirstOrDefault(e => e.Id == id);
+                if(emp != null)
+                {
+                    // Updating only the FirstName property of the employee
+                    emp.FirstName = FirstName;
+
+                    dbContext.SaveChanges();
+                    return Request.CreateResponse(HttpStatusCode.OK, emp);
+                }
+                else
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Employee with Id " + id + " not found in the database. Patch failed.");
+                }
+            }
+        }
+
         public HttpResponseMessage Delete(int id)
         {
             using (ApplicationDbContext dbContext = new ApplicationDbContext())
